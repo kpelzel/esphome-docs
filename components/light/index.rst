@@ -989,10 +989,55 @@ the rest of 19 LEDs will be automatically assigned to 2 universe.
 It is possible to enable multiple light platforms to listen to the same universe concurrently,
 allowing to replicate the behaviour on multiple strips.
 
+
+.. _e131-custom-light-effect:
+
+E1.31 Non-Addressable Effect
+^^^^^^^^^^^^^^^
+
+This effect is only for controlling non-addressable lights using UDP-based
+E1.31_ protocol. If you have an addressable light, please use the :ref:`e131-light-effect`.
+If this effect is used on an addressable light, only the first set of rgb lights will function.
+
+.. code-block:: yaml
+
+    e131:
+      method: multicast # default: register E1.31 to Multicast group
+
+    light:
+      - platform: rgbw
+        effects:
+          - non_addressable_e131:
+              universe: 1
+              channel_map:
+                red: 0
+                green: 1
+                blue: 2
+                white: 3
+
+
+Configuration variables:
+
+- **universe** (**Required**, int): The value of universe, between 1 to 512.
+- **channel map** (*Optional*): A map that assigns each color to a channel in the universe
+
+There are seven supported colors that can be assigned to different channels:
+
+  - ``red``
+  - ``green``
+  - ``blue``
+  - ``white``
+  - ``warm_white``
+  - ``cold_white``
+  - ``color_temp``
+
+In this example an rgbw lightbulb is assigned to universe 1 and will respond to values on channels 0-3.
+
+
 E1.31 Component
 ^^^^^^^^^^^^^^^
 
-The :ref:`e131-light-effect` requires a component hub for the ``e131`` light effect.
+:ref:`e131-light-effect` and :ref:`e131-custom-light-effect` require a component hub for the ``e131`` light effect.
 
 Configuration variables:
 
